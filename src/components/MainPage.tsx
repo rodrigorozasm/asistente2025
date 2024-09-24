@@ -716,7 +716,7 @@ const MainPage: React.FC<MainPageProps> = ({ className, isSidebarCollapsed, togg
             setLoading={setLoading}
             allowImageAttachment={model === null || model?.image_support || false ? 'yes' : (!conversation ? 'warn' : 'no')}
           />
-          <div className="absolute right-10 top-1/2 transform -translate-y-1/2 z-50 w-80 h-80 ">
+          <div className="absolute right-5 top-1/2 transform -translate-y-1/2 z-50 w-80 h-80 ">
             <VideoPlayer isAudioPlaying={isAudioPlaying} />
           </div>
 
