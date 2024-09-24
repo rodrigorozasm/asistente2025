@@ -60,9 +60,9 @@ export class ChatService {
   // Función para buscar en Pinecone
   static async searchPinecone(queryEmbedding: number[]): Promise<any[]> {
     try {
-      console.log("embedin consultado", queryEmbedding);
+    //  console.log("embedin consultado", queryEmbedding);
       const totalElements = await this.getPineconeIndexCount();
-      console.log(`El índice de Pinecone contiene ${totalElements} elementos.`);
+    //  console.log(`El índice de Pinecone contiene ${totalElements} elementos.`);
     
       const response = await axios.post(
         `http://localhost:5000/pinecone-api/query`,
@@ -106,7 +106,7 @@ export class ChatService {
     }
 
     const data = await response.json();
-    console.log('Embeddings generados:', data.data.map((item: any) => item.embedding));
+   // console.log('Embeddings generados:', data.data.map((item: any) => item.embedding));
     return data.data.map((item: any) => item.embedding);
   }
 
@@ -151,7 +151,7 @@ export class ChatService {
           }
         });
   
-        console.log("Message with image:", { role: message.role, content: contentParts });
+       // console.log("Message with image:", { role: message.role, content: contentParts });
         return { role: message.role, content: contentParts };
       }
   
@@ -171,28 +171,28 @@ export class ChatService {
     console.log('sendMessage function called');  // Log para verificar que la función se llama correctamente
 
     const userQuery = messages.map(m => m.content).join(' ');
-    console.log('User query:', userQuery);  // Log para verificar la consulta del usuario
+   // console.log('User query:', userQuery);  // Log para verificar la consulta del usuario
 
     // Generar embeddings para la consulta del usuario
     const queryEmbedding = await this.generateEmbeddings([userQuery]);
-    console.log('Generated query embeddings:', queryEmbedding);  // Log para verificar los embeddings generados
+    //console.log('Generated query embeddings:', queryEmbedding);  // Log para verificar los embeddings generados
 
     // Buscar en Pinecone
     const pineconeResults = await this.searchPinecone(queryEmbedding[0]);
-    console.log('Pinecone search results:', pineconeResults);  // Log para verificar los resultados de Pinecone
+  // console.log('Pinecone search results:', pineconeResults);  // Log para verificar los resultados de Pinecone
 
     let responseMessage: ChatMessage;
 
     if (pineconeResults.length > 0 && pineconeResults[0].score > 0.7) { // Umbral de similitud
         const bestMatch = pineconeResults[0].metadata.text;
-        console.log('Using knowledge base from Pinecone');  // Log para verificar que se está usando Pinecone
+      //  console.log('Using knowledge base from Pinecone');  // Log para verificar que se está usando Pinecone
         responseMessage = {
             role: Role.Assistant,
             messageType: MessageType.Normal,
             content: `${bestMatch}\n\n(used knowledge base from Pinecone)`,
         };
     } else {
-        console.log('Using general knowledge base');  // Log para verificar que se está usando el modelo de OpenAI
+     //   console.log('Using general knowledge base');  // Log para verificar que se está usando el modelo de OpenAI
         const mappedMessages = await this.mapChatMessagesToCompletionMessages(modelId, messages);
 
         const requestBody: ChatCompletionRequest = {
@@ -223,7 +223,7 @@ export class ChatService {
         };
     }
 
-    console.log('Final response:', responseMessage.content);  // Log para verificar la respuesta final
+   // console.log('Final response:', responseMessage.content);  // Log para verificar la respuesta final
 
     const chatCompletion: ChatCompletion = {
         id: 'unique-id',
@@ -279,7 +279,7 @@ export class ChatService {
     isFirstMessage: boolean
   ): Promise<any> {
 
-    console.log("Nombre recibido en sendMessageStreamed:", nombre);
+   // console.log("Nombre recibido en sendMessageStreamed:", nombre);
 
     
 
@@ -308,7 +308,7 @@ export class ChatService {
     console.log("sendMessageStreamed called");
     const lastMessage = messages[messages.length - 1];
     const hasImages = lastMessage.fileDataRef && lastMessage.fileDataRef.length > 0;
-    console.log("¿La consulta incluye imágenes?", hasImages);
+    //console.log("¿La consulta incluye imágenes?", hasImages);
   
     // Paso 1: Asegurar delimitadores LaTeX en el contenido
     const modifiedMessages = messages.map(message => ({
@@ -318,14 +318,14 @@ export class ChatService {
   
     // Paso 2: Generar los embeddings para la consulta del usuario
     const userQuery = modifiedMessages.map(m => m.content).join(' ');
-    console.log("pregunta", userQuery);
+   // console.log("pregunta", userQuery);
     const queryEmbedding = await this.generateEmbeddings([userQuery]);
-    console.log("Generated query embeddings:", queryEmbedding);
+   // console.log("Generated query embeddings:", queryEmbedding);
   
     // Paso 3: Buscar en Pinecone
     const pineconeResults = await this.searchPinecone(queryEmbedding[0]);
     console.log("Pinecone search results:", JSON.stringify(pineconeResults, null, 2));
-    console.log("Consulta actual:", userQuery);
+  //  console.log("Consulta actual:", userQuery);
     console.log("Pinecone Resultados:", pineconeResults);
   
     // Paso 4: Verificar si se debe usar Pinecone o el modelo de OpenAI
@@ -370,7 +370,7 @@ export class ChatService {
         stream: true,
       };
   
-      console.log('Request body with combined prompt:', JSON.stringify(requestBody, null, 2));
+      //console.log('Request body with combined prompt:', JSON.stringify(requestBody, null, 2));
   
       let response: Response;
       try {
@@ -460,7 +460,7 @@ export class ChatService {
       }
     } else {
       // Si Pinecone no tiene una respuesta adecuada, usamos OpenAI directamente
-      console.log('Using general knowledge base (OpenAI)');
+   //   console.log('Using general knowledge base (OpenAI)');
       const mappedMessages = await this.mapChatMessagesToCompletionMessages(chatSettings.model ?? DEFAULT_MODEL, modifiedMessages);
   
       // Definir `requestBody` antes de usarlo
@@ -470,7 +470,7 @@ export class ChatService {
         stream: true,
       };
   
-      console.log('Request body for OpenAI:', JSON.stringify(requestBody, null, 2));
+   //   console.log('Request body for OpenAI:', JSON.stringify(requestBody, null, 2));
   
       let response: Response;
       try {
