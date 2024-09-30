@@ -66,11 +66,8 @@
     "typescript": "^5.2.2"
   },
   "scripts": {
-    "build:css": "postcss src/index.css -o src/tailwind.css",
-    "start": "npm run build:css && vite",
-    "build": "npm run build:css && tsc && vite build",
-    "serve": "vite preview",
-    "dev": "npm run build:css && vite"
+    "start": "concurrently \"npm run start-app\" \"node proxy.js\"",
+    "start-app": "node app.js"
   },
   "eslintConfig": {
     "extends": [
