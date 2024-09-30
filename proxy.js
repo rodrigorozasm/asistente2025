@@ -93,7 +93,7 @@ app.post('/transcribe', upload.single('file'), async (req, res) => {
         const whisperResponse = await axios.post('https://api.openai.com/v1/audio/transcriptions', formData, {
           headers: {
             ...formData.getHeaders(),
-            'Authorization': `Bearer `,
+            'Authorization': `Bearer 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`,
           },
           maxBodyLength: Infinity,
         });
@@ -127,7 +127,7 @@ app.post('/pinecone-api', async (req, res) => {
       {
         headers: {
           'Content-Type': 'application/json',
-          'Api-Key': '',
+          'Api-Key': '7e6d5432-cd13-475b-92e4-276566c73c07',
         },
       }
     );
