@@ -32,6 +32,8 @@ export class ChatService {
   static knowledgeBaseEmbeddings: number[][] = [];
   static knowledgeBaseTexts: string[] = [];
 
+  static baseUrl: string = process.env.BASE_URL || 'http://localhost:5000';
+  
   // Función para cargar la base de conocimientos desde un array embebido
   static async loadKnowledgeBase() {
     console.log("Cargando base de conocimientos desde JSON...");
@@ -41,7 +43,7 @@ export class ChatService {
   static async getPineconeIndexCount(): Promise<number> {
     try {
       const response = await axios.get(
-        `http://localhost:5000/pinecone-api/index/stats`,
+        `${ChatService.baseUrl}/pinecone-api/index/stats`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -65,7 +67,7 @@ export class ChatService {
     //  console.log(`El índice de Pinecone contiene ${totalElements} elementos.`);
     
       const response = await axios.post(
-        `http://localhost:5000/pinecone-api/query`,
+        `${ChatService.baseUrl}/pinecone-api/query`,
         {
           vector: queryEmbedding, // O asegúrate de usar el campo correcto esperado por Pinecone
           topK: 10,  // Número de resultados que quieres obtener
