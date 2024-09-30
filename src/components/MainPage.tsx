@@ -40,6 +40,8 @@ interface MainPageProps {
   nombre?: string | null;
 }
 
+const baseUrl = process.env.BASE_URL || 'http://localhost:5000';
+
 const MainPage: React.FC<MainPageProps> = ({ className, isSidebarCollapsed, toggleSidebarCollapse , nombre}) => {
   const { userSettings } = useContext(UserContext);
   const { t } = useTranslation();
@@ -67,6 +69,9 @@ const MainPage: React.FC<MainPageProps> = ({ className, isSidebarCollapsed, togg
   const [isFirstMessage, setIsFirstMessage] = useState(true);
   const [isProcessingFirstChunk, setIsProcessingFirstChunk] = useState(true);
   const firstChunkRef = useRef('');
+
+  
+  
   useEffect(() => {
     if (nombre) {
       console.log("Nombre recibido en MainPage:", nombre);
@@ -120,7 +125,7 @@ const MainPage: React.FC<MainPageProps> = ({ className, isSidebarCollapsed, togg
     console.log("[send data]", (new Date()).toLocaleTimeString());
 
     try {
-      const url = 'http://localhost:5000/transcribe';
+      const url = '${baseUrl}/transcribe';
       const response = await fetch(url, {
         method: 'POST',
         headers: {
