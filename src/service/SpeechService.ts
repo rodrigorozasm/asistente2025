@@ -1,5 +1,5 @@
 import {OpenAIModel} from "../models/model";
-import {OPENAI_API_KEY} from "../config";
+//import {OPENAI_API_KEY} from "../config";
 import {CustomError} from "./CustomError";
 import {MODELS_ENDPOINT, TTS_ENDPOINT} from "../constants/apiEndpoints";
 import {SpeechSettings} from "../models/SpeechSettings"; // Adjust the path as necessary
@@ -11,7 +11,7 @@ export class SpeechService {
     const endpoint = TTS_ENDPOINT;
     const headers = {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${OPENAI_API_KEY}`,
+      "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
     };
 
     if (text.length > 4096) {
