@@ -66,7 +66,7 @@
     "typescript": "^5.2.2"
   },
   "scripts": {
-    "start": "concurrently \"npm run start-app\" \"node proxy.js\"",
+    "start": "npm run start-app && node server.js",
     "start-app": "node app.js"
   },
   "eslintConfig": {
