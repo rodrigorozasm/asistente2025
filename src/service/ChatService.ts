@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { modelDetails, OpenAIModel } from "../models/model";
 import { ChatCompletion, ChatCompletionMessage, ChatCompletionRequest, ChatMessage, ChatMessagePart, Role, MessageType } from "../models/ChatCompletion";
-import { OPENAI_API_KEY, PINECONE_API_KEY } from "../config";
+//import { OPENAI_API_KEY, PINECONE_API_KEY } from "../config";
+
 import { CustomError } from "./CustomError";
 import { CHAT_COMPLETIONS_ENDPOINT, MODELS_ENDPOINT } from "../constants/apiEndpoints";
 import { ChatSettings } from "../models/ChatSettings";
@@ -47,7 +48,7 @@ export class ChatService {
         {
           headers: {
             'Content-Type': 'application/json',
-            'Api-Key': PINECONE_API_KEY,
+            'Api-Key': process.env.PINECONE_API_KEY,
           },
         }
       );
@@ -76,7 +77,7 @@ export class ChatService {
         {
           headers: {
             'Content-Type': 'application/json',
-            'Api-Key': PINECONE_API_KEY,
+            'Api-Key': process.env.PINECONE_API_KEY,
           },
         }
       );
@@ -95,7 +96,7 @@ export class ChatService {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
         model: 'text-embedding-ada-002', //
@@ -207,7 +208,7 @@ export class ChatService {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${OPENAI_API_KEY}`
+                "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
             },
             body: JSON.stringify(requestBody),
         });
@@ -304,7 +305,7 @@ export class ChatService {
     let endpoint = CHAT_COMPLETIONS_ENDPOINT;
     let headers = {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${OPENAI_API_KEY}`
+      "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
     };
   
     console.log("sendMessageStreamed called");
@@ -595,7 +596,7 @@ export class ChatService {
     }
     this.models = fetch(MODELS_ENDPOINT, {
       headers: {
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
       },
     })
       .then(response => {
